@@ -39,8 +39,8 @@ const lineWidth = 6;
 const lineHeight = 16;
 
 // prędkość, zmiana pozycji w x i y
-let ballSpeedX = 1;
-let ballSpeedY = 1;
+let ballSpeedX = 5;
+let ballSpeedY = 5;
 
 
 // rysowanie aktualnej pozycji rakietki gracza
@@ -65,6 +65,17 @@ function ball() {
     // ruch
     ballX += ballSpeedX;
     ballY += ballSpeedY;
+    
+    // sprawdzenie, czy nie osiągnęła punktów granicznych, jak tak zmiana kierunku
+    if (ballY <= 0 || ballY + ballSize >= ch) {
+        ballSpeedY = -ballSpeedY;
+        speedUp();
+    }
+    
+    if (ballX <= 0 || ballX + ballSize >= cw) {
+        ballSpeedX = -ballSpeedX;
+        speedUp();
+    }
 }
 
 // funkcja rysująca stół
@@ -87,13 +98,85 @@ function table() {
     }
 }
 
+// zmienna zawierającą informację o przestrzeni od wierzchołka przeglądarki do canvas
+let topCanvas = canvas.offsetTop;
+// console.log(topCanvas);
+
+// wywołanie zdarzenia - ruch myszką
+function playerPosition(e) {
+    //console.log('pozycja myszy to: ' + (e.clientY - topCanvas));
+    playerY = e.clientY - topCanvas - paddelHeight / 2;
+    
+    if (playerY >= ch - paddelHeight) {
+        playerY = ch - paddelHeight;
+    }
+    
+    if (playerY <= 0) {
+        playerY = 0;
+    }
+    
+    // na potrzeby testów kontrola nad paletką ai
+    // aiY = playerY;
+}
+
+function speedUp() {
+    //console.log(ballSpeedX + ',' + ballSpeedY);
+    
+    // prędkość x, > 0 - czyli przemieszcza się w prawo
+    if (ballSpeedX > 0 &&  ballSpeedX < 16) {
+        ballSpeedX += .4;
+    } else if (ballSpeedX < 0 && ballSpeedX > -16) {
+        ballSpeedX -= .4;
+    }
+    
+    // prędkość y
+    if (ballSpeedY > 0 &&  ballSpeedY < 16) {
+        ballSpeedY += .3;
+    } else if (ballSpeedY < 0 && ballSpeedY > -16) {
+        ballSpeedY -= .3;
+    }
+}
+
+// sztuczna inteligencja
+function aiPosition() {
+    
+    // const, bo nie zmienia się w trakcie funkcji
+    const middlePaddel = aiY + paddelHeight/2;
+    const middleBall = ballY + ballSize/2;
+    
+    if (ballX > 500) {
+        if (middlePaddel - middleBall > 200) {
+            // console.log('>+200');
+            aiY -= 20;
+        } else if (middlePaddel - middleBall > 50) {
+            // console.log('+50 -200');
+            aiY -= 10;
+        } else if (middlePaddel - middleBall < -200) {
+            // console.log('< -200');
+            aiY += 20;
+        } else if (middlePaddel - middleBall < -50) {
+            // console.log('-50 -200');
+            aiY += 10;
+        }
+    } else if (ballX <= 500 && ballX > 150) {
+        if (middlePaddel - middleBall > 100) {
+            aiY -= 3;
+        } else if (middlePaddel - middleBall < -100) {
+            aiY += 3;
+        }
+    }
+}
+
+canvas.addEventListener('mousemove', playerPosition);
+
 // funkcja wywołująca wszystkie pozostałe
 function game() {
     table();
     ball();
     player();
     ai();
+    aiPosition();
 }
 
 // automatyzacja ruchu
-setInterval(game, 50);
+setInterval(game, 60);
