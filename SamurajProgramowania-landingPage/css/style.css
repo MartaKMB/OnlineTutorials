@@ -1,0 +1,187 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 10px;
+}
+
+/* header */
+
+header {
+    height: 100vh;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow-x: hidden;
+    font-family: 'Oswald', sans-serif;
+    z-index: 1;
+}
+
+main {
+    height: 100vh;
+    background-color: #FC963C;
+    margin-top: 100vh;
+    position: relative;
+    z-index: 2;
+}
+
+header img {
+    position: absolute;
+    bottom: 0;
+    height: 65%;
+    right: -10%;
+}
+
+header nav {
+    position: absolute;
+    right: 7%;
+    top: 3%;
+    font-size: 3rem;
+}
+
+header hgroup {
+    position: absolute;
+    top: 8%;
+    left: 8%;
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+header h1 {
+    font-size: 3.6rem;
+}
+
+header h3 {
+    font-size: 2.6rem;
+    font-weight: 400;
+}
+
+#arrow {
+    width: 64px;
+    height: 64px;
+    border: 3px solid black;
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    font-size: 5rem;
+    text-align: center;
+    text-shadow: 0px -15px 0 black, 0px -30px 0 black;
+    overflow: hidden;
+    transition: 1s ease;
+}
+
+#arrow:hover {
+    background-color: #FC963C;
+    /* should be only for desktop */
+    cursor: pointer;
+}
+
+.fa-angle-down {
+    animation: arrow 1.4s infinite linear;
+}
+
+/* media queries */
+
+@media (orientation: portrait) {
+    h3 span::after {
+        content: '\A';
+        white-space: pre;
+    }
+} 
+
+@media (orientation: landscape) {
+    header img {
+        height: 60%;
+        right: 0;
+    }
+}
+
+@media (min-width: 530px) {
+    header img {
+        height: 75%;
+    }
+    
+    header h1 {
+        font-size: 5rem;
+    }
+    
+    header h3 {
+        font-size: 2.4rem;
+    }
+    
+    header hgroup {
+        top: 10%;
+    }
+}
+
+@media (min-width: 530px) and (orientation: portrait) {}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 768px) and (orientation: portrait){
+    header img {
+       height: 70%;
+       right: -30%;
+    }
+    
+    header h1 {
+        font-size: 8rem;
+    }
+    
+    header h3 {
+        font-size: 3.8rem;
+    }
+    
+    header hgroup {
+        top: 8%;
+    }
+}
+
+@media (min-width: 1024px) {
+   header img {
+        right: -10%;
+    }
+    
+    header h3 {
+        font-size: 4rem;
+    }
+    
+    header hgroup {
+        top: 12%;
+    }
+    
+    #arrow {
+        width: 96px;
+        height: 96px;
+        font-size: 7rem;
+    }
+}
+
+@media (min-width: 1280px) {
+   
+}
+
+@media (min-width: 1600px) {
+   
+}
+
+@media (max-width: 320px) {
+    header h3 {
+        font-size: 2.4reml
+    }
+}
+
+/* CSS animation */
+
+@keyframes arrow {
+    0% { transform: translateY(-80px)}
+    50% { transform: translateY(0px)}
+    100% { transform: translateY(80px)}
+}
